@@ -1,0 +1,494 @@
+<title>CCCARE Exercise Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a care handout. One column of sections; each exercise is a sheet with two posed figures (START / END) beside its steps. */
+:root {
+  --paper: #f3f6f8;
+  --surface: #ffffff;
+  --ink: #13212b;
+  --muted: #5a6b78;
+  --line: #d6dee4;
+  --accent: #1f5fbf;
+  --accent-soft: #e4edf9;
+  --sensor: #e0590f;
+  --good: #15803d;
+  --bad: #b91c1c;
+  --bad-soft: #fdecec;
+  --font-display: "Archivo", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0e161c; --surface: #15212a; --ink: #e5edf2; --muted: #93a5b2; --line: #2a3a46;
+    --accent: #78aefc; --accent-soft: #1b2c42; --sensor: #ff8a3d; --good: #4ade80; --bad: #f87171; --bad-soft: #3a1c1f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0e161c; --surface: #15212a; --ink: #e5edf2; --muted: #93a5b2; --line: #2a3a46;
+  --accent: #78aefc; --accent-soft: #1b2c42; --sensor: #ff8a3d; --good: #4ade80; --bad: #f87171; --bad-soft: #3a1c1f;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 17px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 80px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(34px, 6vw, 56px); font-weight: 800; line-height: 1.02; }
+h2 { font-size: 28px; font-weight: 800; }
+h3 { font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+.lede { font-size: 19px; color: var(--muted); }
+.mono, kbd { font-family: var(--font-mono); font-size: 0.82em; }
+kbd {
+  display: inline-block; padding: 1px 8px; border-radius: 6px; white-space: nowrap;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 500;
+}
+.say { color: var(--accent); font-style: italic; }
+.say::before { content: "“"; } .say::after { content: "”"; }
+section { display: grid; gap: 20px; }
+.section-head { display: grid; gap: 8px; }
+
+/* header */
+header { display: grid; gap: 18px; }
+.kicker { font-family: var(--font-mono); font-size: 13px; color: var(--sensor); letter-spacing: 0.06em; text-transform: uppercase; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 15px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 18px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* jump nav */
+nav.jump {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  display: flex; gap: 8px; overflow-x: auto; padding-block: 10px;
+  background: var(--paper); border-bottom: 1px solid var(--line);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+nav.jump a {
+  flex: 0 0 auto; text-decoration: none; color: var(--ink); font-size: 15px; font-weight: 700;
+  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+}
+nav.jump a:hover, nav.jump a:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+
+/* the five steps */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.steps li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: grid; gap: 8px; align-content: start; }
+.steps .n { font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--accent); line-height: 1; }
+.steps b { font-size: 17px; }
+.steps p { font-size: 15px; color: var(--muted); }
+
+/* mock of the live panel */
+.mock {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px; display: grid; gap: 14px; justify-items: center; text-align: center;
+}
+.mock .setn { font-family: var(--font-display); font-weight: 600; justify-self: start; }
+.mock .big { font-family: var(--font-display); font-weight: 800; font-size: 72px; line-height: 1; font-variant-numeric: tabular-nums; }
+.mock .bar { width: min(460px, 100%); height: 14px; background: var(--line); border-radius: 7px; overflow: hidden; }
+.mock .bar i { display: block; height: 100%; width: 72%; background: var(--accent); }
+.mock .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; font-variant-numeric: tabular-nums; }
+.mock .stats div { display: grid; }
+.mock .stats b { font-size: 20px; }
+.mock .stats span { font-size: 13px; color: var(--muted); }
+.mock .btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.mock .btns span { padding: 8px 18px; border-radius: 8px; border: 1px solid var(--line); font-weight: 700; }
+.mock .btns .on { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.callouts { display: grid; gap: 12px; }
+.callouts div { display: grid; grid-template-columns: 120px 1fr; gap: 12px; font-size: 15px; }
+.callouts dt, .callouts .k { font-weight: 700; }
+
+/* rep chart */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; overflow-x: auto; }
+.chart svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart text { font-family: var(--font-body); }
+.thresholds { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.thresholds div { font-size: 15px; border-left: 3px solid var(--line); padding-left: 10px; }
+.thresholds b { font-family: var(--font-mono); font-size: 14px; }
+
+/* exercise sheets */
+.ex { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 20px; scroll-margin-top: 70px; }
+.ex-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 999px; background: var(--paper); color: var(--sensor); border: 1px solid var(--line); }
+.chip::before { content: ""; width: 12px; height: 7px; border-radius: 2px; background: var(--sensor); }
+.ex-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.poses { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+figure { margin: 0; display: grid; gap: 6px; }
+figure svg { width: 100%; height: auto; display: block; background: var(--paper); border-radius: var(--radius); }
+figcaption { font-size: 14px; color: var(--muted); }
+figcaption b { color: var(--ink); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; margin-right: 6px; }
+.howto { display: grid; gap: 16px; }
+.howto ol, .howto ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 16px; }
+.hear { display: grid; gap: 8px; }
+.hear div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; font-size: 15px; padding: 8px 10px; border-radius: 8px; background: var(--paper); }
+.hear .fix { color: var(--muted); }
+
+/* troubleshooting */
+.trouble { display: grid; gap: 12px; }
+.trouble div { display: grid; grid-template-columns: 260px 1fr; gap: 16px; padding: 14px 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); font-size: 16px; }
+.trouble .red { background: var(--bad-soft); color: var(--bad); font-weight: 700; padding: 6px 10px; border-radius: 6px; align-self: start; }
+.trouble .msg { font-weight: 700; }
+
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 820px) {
+  .ex-body, .two { grid-template-columns: 1fr; }
+  .trouble div { grid-template-columns: 1fr; gap: 8px; }
+  .callouts div { grid-template-columns: 1fr; gap: 2px; }
+  .hear div { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (max-width: 440px) {
+  .ex { padding: 16px; }
+  .poses { gap: 6px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.jump a { transition: border-color .15s, color .15s; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">ECE 198 · CCCARE wearable tracker</div>
+    <h1>CCCARE Exercise Guide</h1>
+    <p class="lede">How to strap on the sensor, calibrate, and track each of the six dumbbell exercises with the desktop app. Each exercise has a START and an END picture: these are the two positions you hold still during calibration.</p>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--sensor)"></i>Where the sensor goes</span>
+      <span><i class="sw" style="background:var(--accent)"></i>The angle the app tracks (0% at start, 100% at end)</span>
+      <span><i class="sw" style="background:var(--line);border:1px dashed var(--accent)"></i>Start position, shown faintly on the END picture</span>
+    </div>
+  </header>
+
+  <nav class="jump" aria-label="Exercises">
+    <a href="#steps">App steps</a>
+    <a href="#bicep">Bicep curl</a>
+    <a href="#hammer">Hammer curl</a>
+    <a href="#lateral">Lateral raise</a>
+    <a href="#overhead">Overhead press</a>
+    <a href="#bench">Bench press</a>
+    <a href="#row">Dumbbell row</a>
+    <a href="#trouble">Troubleshooting</a>
+  </nav>
+
+  <section id="steps">
+    <div class="section-head">
+      <h2>The same five steps for every exercise</h2>
+      <p>Open the app with <kbd>py pc_app/app.py</kbd>. The top bar should show a green dot and <span class="mono">Sensor connected</span>. With no hardware, tick <kbd>Demo mode</kbd>.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="n">1</span><b>Pick who and what</b><p>Choose the <kbd>User</kbd>, the <kbd>Exercise</kbd> and <kbd>Left arm</kbd> or <kbd>Right arm</kbd>. Use <kbd>+ Add user</kbd> for someone new.</p></li>
+      <li><span class="n">2</span><b>Strap the sensor</b><p>Follow the <em>Sensor placement</em> card. The sensor goes on the forearm for curls and on the upper arm for everything else.</p></li>
+      <li><span class="n">3</span><b>Calibrate once</b><p>Press <kbd>Calibrate</kbd>. Hold the START position still, then the END position. It's saved per user, exercise and arm.</p></li>
+      <li><span class="n">4</span><b>Do your sets</b><p>Set the target sets, reps and rest. Press <kbd>Start Set</kbd>. Each full rep is counted aloud, and the set ends at the target.</p></li>
+      <li><span class="n">5</span><b>Rest, repeat, review</b><p>The rest timer starts on its own (or press <kbd>Skip Rest</kbd>). Afterwards, check the <kbd>History</kbd> and <kbd>Progress</kbd> tabs.</p></li>
+    </ol>
+
+    <div class="two">
+      <div class="mock" aria-label="Example of the live workout panel">
+        <div class="setn">Set 2 of 3</div>
+        <div class="big">7 / 10</div>
+        <div class="bar"><i></i></div>
+        <div class="stats">
+          <div><b>94°</b><span>Angle</span></div>
+          <div><b>Lifting</b><span>Phase</span></div>
+          <div><b>1</b><span>Incomplete</span></div>
+          <div><b>0</b><span>Momentum</span></div>
+          <div><b>2.1 s</b><span>Last rep</span></div>
+        </div>
+        <div class="btns"><span>Start Set</span><span class="on">Stop Set</span></div>
+      </div>
+      <div class="callouts">
+        <div><span class="k">Big number</span><span>Full reps so far / reps per set. It turns green at the target.</span></div>
+        <div><span class="k">Blue bar</span><span>How far through the movement you are: empty at START, full at END.</span></div>
+        <div><span class="k">Angle</span><span>Degrees moved away from the START position.</span></div>
+        <div><span class="k">Phase</span><span>Ready → Lifting → At the top → Lowering → Ready.</span></div>
+        <div><span class="k">Incomplete</span><span>Reps that didn't reach the top or didn't return to the start. They aren't counted.</span></div>
+        <div><span class="k">Momentum</span><span>Reps where you swung the weight. They're still counted, and the app says <span class="say">Slow down, less swinging</span>.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="judge">
+    <div class="section-head">
+      <h2>How the app decides a rep counts</h2>
+      <p>The tracker measures the tilt of the sensor between your calibrated START (0%) and END (100%). A rep counts only when it goes all the way up past 85% and back below 15%.</p>
+    </div>
+    <div class="chart"><svg id="repChart" viewBox="0 0 760 260" role="img" aria-label="Progress over time for two full reps and one incomplete rep, with the 15, 25, 60 and 85 percent thresholds"></svg></div>
+    <div class="thresholds">
+      <div><b>85%</b> Top reached</div>
+      <div><b>60%</b> Left the top, now lowering</div>
+      <div><b>25%</b> A new rep has started</div>
+      <div><b>15%</b> Back at the start, so the rep counts</div>
+    </div>
+  </section>
+
+  <div id="sheets" style="display:grid;gap:28px"></div>
+
+  <section id="trouble">
+    <div class="section-head">
+      <h2>When something goes wrong</h2>
+      <p>The app pauses counting and tells you why. Nothing half-measured is counted.</p>
+    </div>
+    <div class="trouble">
+      <div><span class="red">Sensor problem: The X wire reads 0.04 V</span><span>A sensor wire is loose. Check VCC→3V3, GND→GND, X→34, Y→35, Z→32. Counting starts again after 1 second of good readings.</span></div>
+      <div><span class="red">Sensor disconnected</span><span>No data for over 1 second. Check the USB cable and close the Arduino Serial Monitor. The app reconnects by itself, or you can press <kbd>Reconnect</kbd>.</span></div>
+      <div><span class="msg">Calibration failed: you moved while it was measuring</span><span>Brace the arm and hold it completely still for the 1-second measurement. Your old calibration is kept.</span></div>
+      <div><span class="msg">Calibration failed: the arm only moved 22 degrees</span><span>The sensor needs to move at least 30°. Tighten the strap, make sure it's on the right arm segment (see the pictures), and go all the way to the END position.</span></div>
+      <div><span class="msg">Can't start: … isn't calibrated</span><span>Each user, exercise and arm needs its own calibration. Press <kbd>Calibrate</kbd> first.</span></div>
+      <div><span class="msg">Reps aren't being counted</span><span>You may be starting the rep from too high. Go back to the START position until the phase says <span class="mono">Ready</span>. If the strap slipped, press <kbd>Recalibrate</kbd>.</span></div>
+    </div>
+  </section>
+
+  <footer>CCCARE exercise tracker · ESP32 + ADXL335 · thresholds can be tuned in <span class="mono">pc_app/config.py</span></footer>
+</div>
+
+<script>
+// ---------- figure drawing ----------
+// Angles: 0 = pointing straight down, 90 = toward the right of the picture, 180 = up, -90 = left.
+const NS = "http://www.w3.org/2000/svg";
+const dir = a => [Math.sin(a * Math.PI / 180), Math.cos(a * Math.PI / 180)];
+const move = (p, len, a) => { const d = dir(a); return [p[0] + d[0] * len, p[1] + d[1] * len]; };
+const UPPER = 42, FORE = 40;
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function line(svg, a, b, cls, extra = {}) {
+  return el("line", Object.assign({ x1: a[0], y1: a[1], x2: b[0], y2: b[1], class: cls }, extra), svg);
+}
+
+const FIG_STYLE = `
+  .body { stroke: var(--ink); stroke-width: 7; stroke-linecap: round; fill: none; }
+  .limb { stroke: var(--ink); stroke-width: 6; stroke-linecap: round; fill: none; }
+  .faint { stroke: var(--muted); stroke-width: 6; stroke-linecap: round; fill: none; opacity: .35; }
+  .ghost { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 4 5; stroke-linecap: round; fill: none; opacity: .8; }
+  .arc { stroke: var(--accent); stroke-width: 3; fill: none; }
+  .arcfill { fill: var(--accent); opacity: .12; stroke: none; }
+  .ground { stroke: var(--line); stroke-width: 3; stroke-linecap: round; }
+  .bench { fill: var(--line); stroke: none; }
+  .head { fill: var(--paper); stroke: var(--ink); stroke-width: 5; }
+  .bell { fill: var(--muted); stroke: none; }
+  .sensor { fill: var(--sensor); stroke: var(--surface); stroke-width: 1.5; }
+  .lbl { fill: var(--accent); font: 700 15px var(--font-body); }
+  .tag { fill: var(--sensor); font: 700 11px var(--font-mono); letter-spacing: .04em; }`;
+
+function dumbbell(svg, hand, foreAng, front) {
+  // a short bar across the hand with a plate at each end
+  const g = el("g", { transform: `translate(${hand[0]} ${hand[1]}) rotate(${-foreAng + 90})` }, svg);
+  const w = front ? 13 : 9;
+  el("rect", { x: -3, y: -w, width: 6, height: 2 * w, rx: 2, class: "bell" }, g);
+  el("rect", { x: -6, y: -w - 6, width: 12, height: 7, rx: 2, class: "bell" }, g);
+  el("rect", { x: -6, y: w - 1, width: 12, height: 7, rx: 2, class: "bell" }, g);
+}
+
+function sensorOn(svg, a, b, ang, label) {
+  const m = [a[0] + (b[0] - a[0]) * 0.55, a[1] + (b[1] - a[1]) * 0.55];
+  el("rect", { x: -10, y: -6, width: 20, height: 12, rx: 3, class: "sensor",
+               transform: `translate(${m[0]} ${m[1]}) rotate(${-ang + 90})` }, svg);
+  if (label) {
+    const side = label.side || 1;
+    const t = el("text", { x: m[0] + 16 * side, y: m[1] + 4, class: "tag",
+                           "text-anchor": side > 0 ? "start" : "end" }, svg);
+    t.textContent = "SENSOR";
+  }
+}
+
+function arc(svg, c, r, a1, a2) {
+  const p1 = move(c, r, a1), p2 = move(c, r, a2);
+  const diff = a2 - a1;
+  const sweep = diff > 0 ? 0 : 1;
+  const large = Math.abs(diff) > 180 ? 1 : 0;
+  el("path", { d: `M${c[0]} ${c[1]} L${p1[0]} ${p1[1]} A${r} ${r} 0 ${large} ${sweep} ${p2[0]} ${p2[1]} Z`, class: "arcfill" }, svg);
+  el("path", { d: `M${p1[0]} ${p1[1]} A${r} ${r} 0 ${large} ${sweep} ${p2[0]} ${p2[1]}`, class: "arc" }, svg);
+}
+
+// Draws one pose. ex = exercise spec, pose = "start" | "end"
+function drawPose(ex, pose) {
+  const svg = el("svg", { viewBox: "0 0 220 240", role: "img",
+                          "aria-label": `${ex.name}, ${pose} position` });
+  el("style", {}, svg).textContent = FIG_STYLE;
+  const P = ex[pose], S = ex.start;
+  const hip = ex.hip, shoulder = move(hip, 70, ex.torso);
+  const neckEnd = move(shoulder, 10, ex.torso);
+  const head = move(shoulder, 24, ex.torso);
+
+  if (ex.groundY) line(svg, [12, ex.groundY], [208, ex.groundY], "ground");
+  if (ex.bench) el("rect", Object.assign({ class: "bench", rx: 3 }, ex.bench), svg);
+
+  // legs
+  for (const leg of ex.legs) {
+    const knee = move(hip, leg[0], leg[1]);
+    const foot = move(knee, leg[2], leg[3]);
+    line(svg, hip, knee, "limb"); line(svg, knee, foot, "limb");
+  }
+  line(svg, hip, neckEnd, "body");
+  el("circle", { cx: head[0], cy: head[1], r: 13, class: "head" }, svg);
+
+  // working-arm shoulder (front views put it to the right of the neck)
+  const sh = ex.front ? [shoulder[0] + 18, shoulder[1] + 2] : shoulder;
+  if (ex.front) {
+    // shoulder line and the mirrored other arm, drawn faintly
+    const shL = [shoulder[0] - 18, shoulder[1] + 2];
+    line(svg, shL, sh, "body");
+    const eL = move(shL, UPPER, -P.upper), hL = move(eL, FORE, -P.fore);
+    line(svg, shL, eL, "faint"); line(svg, eL, hL, "faint");
+  }
+  if (ex.support) {
+    const e = move(sh, UPPER, ex.support[0]), h = move(e, FORE, ex.support[1]);
+    line(svg, sh, e, "faint"); line(svg, e, h, "faint");
+  }
+
+  const elbow = move(sh, UPPER, P.upper), hand = move(elbow, FORE, P.fore);
+
+  // on the END picture: faint start position of the sensor segment + the angle swept
+  if (pose === "end") {
+    let pivot, a1, a2, len;
+    if (ex.sensor === "fore") { pivot = elbow; a1 = S.fore; a2 = P.fore; len = FORE; }
+    else { pivot = sh; a1 = S.upper; a2 = P.upper; len = UPPER; }
+    arc(svg, pivot, 26, a1, a2);
+    line(svg, pivot, move(pivot, len + 6, a1), "ghost");
+    const mid = move(pivot, 44, (a1 + a2) / 2);
+    const t = el("text", { x: mid[0], y: mid[1] + 5, class: "lbl", "text-anchor": "middle" }, svg);
+    t.textContent = "≈" + Math.abs(Math.round(a2 - a1)) + "°";
+  }
+
+  line(svg, sh, elbow, "limb"); line(svg, elbow, hand, "limb");
+  dumbbell(svg, hand, P.fore, ex.front);
+  if (ex.sensor === "fore") sensorOn(svg, elbow, hand, P.fore, pose === "start" && { side: ex.tagSide || 1 });
+  else sensorOn(svg, sh, elbow, P.upper, pose === "start" && { side: ex.tagSide || 1 });
+  return svg;
+}
+
+// ---------- the six exercises ----------
+const EXERCISES = [
+  { id: "bicep", name: "Bicep curl", where: "Forearm, near the wrist", startTxt: "Arm straight down", endTxt: "Fully curled",
+    hip: [100, 160], torso: 180, legs: [[38, 0, 38, 0]], groundY: 238, sensor: "fore",
+    start: { upper: 0, fore: 0 }, end: { upper: 8, fore: 152 },
+    strap: ["Strap the sensor on the inside of the forearm, a hand's width below the elbow, near the wrist.", "Palm faces forward (up as you curl).", "Keep the elbow pinned at your side, because only the forearm should rotate."],
+    calStart: "Hold the start position, arm straight down, and keep still.", calEnd: "Now move to the end position, fully curled, and hold still.",
+    tips: ["Lower all the way until the arm is straight before the next curl.", "Count is spoken on the way down, when the arm passes 15%."],
+    errors: [["Incomplete. You didn't reach the top.", "Curl higher, so the dumbbell comes to the shoulder."], ["Incomplete. Go all the way back to the start.", "Straighten the elbow fully at the bottom."], ["Slow down, less swinging.", "Don't lean back or jerk the weight up. Take about a second to lift."]] },
+  { id: "hammer", name: "Hammer curl", where: "Forearm, thumb up", startTxt: "Arm straight down", endTxt: "Fully curled",
+    hip: [100, 160], torso: 180, legs: [[38, 0, 38, 0]], groundY: 238, sensor: "fore",
+    start: { upper: 0, fore: 0 }, end: { upper: 8, fore: 148 },
+    strap: ["Same spot as the bicep curl: forearm near the wrist.", "Palm faces your body, thumb pointing up, through the whole rep.", "Calibrate separately. A hammer curl has its own saved calibration."],
+    calStart: "Hold the start position, arm straight down, and keep still.", calEnd: "Now move to the end position, fully curled, and hold still.",
+    tips: ["Don't rotate the wrist during the rep, because that changes the sensor angle.", "Elbow stays at your side."],
+    errors: [["Incomplete. You didn't reach the top.", "Bring the dumbbell up to shoulder height."], ["Incomplete. Go all the way back to the start.", "Lower until the arm is straight."], ["Slow down, less swinging.", "Keep the body still and lift with control."]] },
+  { id: "lateral", name: "Lateral raise", where: "Upper arm, outside", startTxt: "Arm at your side", endTxt: "Arm out horizontal",
+    front: true, hip: [110, 168], torso: 180, legs: [[34, -8, 34, 0], [34, 8, 34, 0]], groundY: 238, sensor: "upper",
+    start: { upper: 14, fore: 14 }, end: { upper: 88, fore: 90 },
+    strap: ["Strap the sensor on the outside of the upper arm, halfway between shoulder and elbow.", "Shown from the front. Raise the arm out to the side, not forward.", "Keep a slight bend in the elbow, and keep it the same throughout."],
+    calStart: "Hold the start position, arm at your side, and keep still.", calEnd: "Now move to the end position, arm out horizontal, and hold still.",
+    tips: ["Stop at shoulder height, with the arm level with the floor.", "Lower slowly back to your side before the next rep."],
+    errors: [["Incomplete. You didn't reach the top.", "Lift until the arm is level with your shoulder."], ["Incomplete. Go all the way back to the start.", "Bring the arm right back down to your side."], ["Slow down, less swinging.", "Don't shrug or bounce the weight up."]] },
+  { id: "overhead", name: "Dumbbell overhead press", where: "Upper arm", startTxt: "Dumbbell at shoulder", endTxt: "Arm straight up",
+    front: true, hip: [110, 178], torso: 180, legs: [[30, -8, 28, 0], [30, 8, 28, 0]], groundY: 238, sensor: "upper", tagSide: -1,
+    start: { upper: 95, fore: 180 }, end: { upper: 170, fore: 174 },
+    strap: ["Sensor on the upper arm, not the forearm. The forearm stays vertical in a press, so it barely tilts.", "Shown from the front. Start with the elbow out to the side and the dumbbell at shoulder height.", "Sit or stand tall, with your back straight."],
+    calStart: "Hold the start position, dumbbell at shoulder, and keep still.", calEnd: "Now move to the end position, arm straight up, and hold still.",
+    tips: ["Press until the elbow is straight above the shoulder.", "Come all the way back down to shoulder height each rep."],
+    errors: [["Incomplete. You didn't reach the top.", "Fully straighten the arm overhead."], ["Incomplete. Go all the way back to the start.", "Lower the dumbbell to shoulder level."], ["Slow down, less swinging.", "Don't dip the knees to push the weight up."]] },
+  { id: "bench", name: "Dumbbell bench press", where: "Upper arm", startTxt: "Dumbbell at chest", endTxt: "Arm extended",
+    hip: [150, 140], torso: -90, legs: [[46, 58, 46, 0]], groundY: 220, bench: { x: 30, y: 146, width: 150, height: 12 }, sensor: "upper",
+    start: { upper: 75, fore: 180 }, end: { upper: 180, fore: 180 },
+    strap: ["Sensor on the upper arm, as for the overhead press.", "Lie on the bench with your feet flat on the floor. Calibrate while lying down.", "Start with the dumbbell at chest level and the elbow just below the bench."],
+    calStart: "Hold the start position, dumbbell at chest, and keep still.", calEnd: "Now move to the end position, arm extended, and hold still.",
+    tips: ["Push straight up until the arm is fully extended.", "Have a spotter nearby, and rest the weight on your chest during calibration if needed."],
+    errors: [["Incomplete. You didn't reach the top.", "Lock the arm out above the chest."], ["Incomplete. Go all the way back to the start.", "Lower the dumbbell back to chest level."], ["Slow down, less swinging.", "Don't bounce the weight off the bottom."]] },
+  { id: "row", name: "Dumbbell row", where: "Upper arm, back", startTxt: "Arm hanging", endTxt: "Elbow pulled back",
+    hip: [62, 118], torso: 104, legs: [[45, 12, 46, -4]], groundY: 212, bench: { x: 150, y: 176, width: 62, height: 12 }, support: [26, 2], sensor: "upper",
+    start: { upper: 0, fore: 0 }, end: { upper: -68, fore: -4 },
+    strap: ["Sensor on the back of the upper arm.", "Bend forward with a flat back, and brace your other hand on a bench.", "Let the arm hang straight down to start."],
+    calStart: "Hold the start position, arm hanging, and keep still.", calEnd: "Now move to the end position, elbow pulled back, and hold still.",
+    tips: ["Pull the elbow back past your body, keeping it close to your side.", "Keep the torso still, because only the arm should move."],
+    errors: [["Incomplete. You didn't reach the top.", "Pull the elbow higher, toward your hip."], ["Incomplete. Go all the way back to the start.", "Let the arm hang straight between reps."], ["Slow down, less swinging.", "Don't twist the torso to yank the weight."]] },
+];
+
+function esc(s) { return s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
+
+const sheets = document.getElementById("sheets");
+for (const ex of EXERCISES) {
+  const s = document.createElement("section");
+  s.className = "ex"; s.id = ex.id;
+  s.innerHTML = `
+    <div class="ex-head"><h2>${ex.name}</h2><span class="chip">Sensor: ${ex.where}</span></div>
+    <div class="ex-body">
+      <div class="poses">
+        <figure data-pose="start"><figcaption><b>START · 0%</b>${ex.startTxt}</figcaption></figure>
+        <figure data-pose="end"><figcaption><b>END · 100%</b>${ex.endTxt}</figcaption></figure>
+      </div>
+      <div class="howto">
+        <div><h3>Strap it</h3><ul>${ex.strap.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
+        <div><h3>Calibrate</h3><ol>
+          <li>Select <kbd>${ex.name}</kbd> and the arm, then press <kbd>Calibrate</kbd>.</li>
+          <li>You hear <span class="say">${esc(ex.calStart)}</span> You have 3 seconds to get there, then it measures for 1 second.</li>
+          <li>Then <span class="say">${esc(ex.calEnd)}</span> Same again: 3 seconds, then 1 second still.</li>
+          <li>You hear <span class="say">Calibration complete. Range … degrees.</span> The angle must be at least 30°.</li>
+        </ol></div>
+        <div><h3>During the set</h3><ul>${ex.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
+        <div class="hear"><h3>If you hear</h3>${ex.errors.map(([a, b]) => `<div><span class="say">${esc(a)}</span><span class="fix">${esc(b)}</span></div>`).join("")}</div>
+      </div>
+    </div>`;
+  sheets.appendChild(s);
+  s.querySelector('[data-pose="start"]').prepend(drawPose(ex, "start"));
+  s.querySelector('[data-pose="end"]').prepend(drawPose(ex, "end"));
+}
+
+// ---------- rep chart: progress (%) over time (s), to scale ----------
+(function repChart() {
+  const svg = document.getElementById("repChart");
+  const L = 56, R = 744, T = 18, B = 214;           // plot area
+  const tMax = 10;
+  const X = t => L + (R - L) * t / tMax;
+  const Y = p => B - (B - T) * p / 100;
+  el("style", {}, svg).textContent = `
+    .ax { stroke: var(--line); stroke-width: 1; }
+    .th { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 5; }
+    .tl { fill: var(--muted); font-size: 12px; }
+    .curve { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; }
+    .area { fill: var(--accent); opacity: .1; }
+    .ok { fill: var(--good); font-size: 13px; font-weight: 700; }
+    .no { fill: var(--bad); font-size: 13px; font-weight: 700; }
+    .dot { fill: var(--surface); stroke-width: 3; }`;
+  for (const p of [0, 50, 100]) {
+    line(svg, [L, Y(p)], [R, Y(p)], "ax");
+    el("text", { x: L - 8, y: Y(p) + 4, "text-anchor": "end", class: "tl" }, svg).textContent = p + "%";
+  }
+  for (let t = 0; t <= tMax; t += 2) {
+    el("text", { x: X(t), y: B + 18, "text-anchor": "middle", class: "tl" }, svg).textContent = t + " s";
+  }
+  for (const [p, name] of [[85, "top 85%"], [60, "left top 60%"], [25, "start 25%"], [15, "bottom 15%"]]) {
+    line(svg, [L, Y(p)], [R, Y(p)], "th");
+    el("text", { x: R, y: Y(p) - 4, "text-anchor": "end", class: "tl" }, svg).textContent = name;
+  }
+  // three reps: full, incomplete (peaks at 72%), full
+  const reps = [[0.4, 3.0, 100], [3.6, 6.0, 72], [6.6, 9.4, 100]];
+  const prog = t => {
+    for (const [a, b, peak] of reps) if (t >= a && t <= b) return peak * (1 - Math.cos(2 * Math.PI * (t - a) / (b - a))) / 2;
+    return 0;
+  };
+  let d = "";
+  for (let i = 0; i <= 500; i++) { const t = tMax * i / 500; d += (i ? "L" : "M") + X(t).toFixed(1) + " " + Y(prog(t)).toFixed(1); }
+  el("path", { d: d + `L${R} ${B} L${L} ${B} Z`, class: "area" }, svg);
+  el("path", { d, class: "curve" }, svg);
+  // where each rep is decided: the curve drops back under 15%
+  const marks = [[reps[0], "Rep 1 counted", "ok"], [reps[1], "Incomplete: missed the top", "no"], [reps[2], "Rep 2 counted", "ok"]];
+  for (const [[a, b, peak], label, cls] of marks) {
+    const tEnd = a + (b - a) * (1 - Math.acos(1 - 2 * 15 / peak) / (2 * Math.PI));
+    el("circle", { cx: X(tEnd), cy: Y(15), r: 5, class: "dot", stroke: cls === "ok" ? "var(--good)" : "var(--bad)" }, svg);
+    el("text", { x: X((a + b) / 2), y: Y(peak) - 8 < T + 10 ? Y(peak) + 22 : Y(peak) - 8, "text-anchor": "middle", class: cls }, svg).textContent = label;
+  }
+})();
+</script>
